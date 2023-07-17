@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            text-align: center;
+            padding-top: 50px;
+        }
+        form{
+            width: 300px;
+            margin: auto;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        input{
+            padding: 5px 10px;
+        }
+        #submit{
+            background-color: green;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Homepage</h1>
+        <form>
+            <input id="username" type="text" placeholder="Enter Username" required>
+            <input id="email" type="text" placeholder="Enter Email" required>
+            <input id="submit" type="submit" value="Submit">
+        </form>
+</body>
+</html>
+<script>
+    // ****************----------URL------------***********************
+     const URL = "http://localhost:4200";
+
+     let form = document.querySelector("form");
+
+     form.addEventListener("submit", async (e)=>{
+        e.preventDefault();
+        let obj = {
+            username : form.username.value,
+            email : form.email.value
+        };
+
+        await fetch(`${URL}/user/signup`, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(obj),
+            })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data)=>{
+                alert(data.msg);
+                localStorage.setItem("userId", data.user._id);
+                localStorage.setItem("userEmail", data.user.email);
+                window.location.href = "./dashboard.html";
+            })
+            .catch((err)=>alert(err.message));
+     })
+</script>
