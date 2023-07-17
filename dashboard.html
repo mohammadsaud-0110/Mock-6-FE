@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <style>
+        *{
+            margin: 0px;
+        }
+        #cont{
+            display: grid;
+            width: 80%;
+            margin: auto;
+            grid-template-columns: repeat(4,1fr);
+            grid-template-rows: auto;
+            gap: 20px
+        }
+        .card{
+            border: 1px solid red;
+            height: 150px;
+        }
+    </style>
 </head>
 <body>
     <div id="top">
@@ -13,7 +30,39 @@
         </a>
     </div>
     <div id="cont">
-        
+        <!-- display each quiz -->
     </div>
 </body>
 </html>
+<script>
+    const URL = "https://m-6-server.onrender.com";
+
+    let cont = document.querySelector("#cont");
+
+    fetchQuiz();
+    async function fetchQuiz(){
+        await fetch(`${URL}/quiz/getAll`)
+                .then((res)=>res.json())
+                .then((data)=>{
+                    displayQuizCard(data.quiz)
+                })
+                .catch((err)=>console.log(err))
+    }
+
+    function displayQuizCard(data){
+        cont.innerHTML = "";
+        let card = "";
+        data.forEach((ele)=>{
+            card += `
+            <div class='card'>
+                <h2>${ele.title}</h2>
+                <p>${ele.title}</p>
+                <h4>Created By : ${ele.creator}</h4>
+                <button>Take Quiz</button>
+                <button>LeaderBoard</button>
+            </div>
+            `
+        })
+        cont.innerHTML = card;
+    }
+</script>

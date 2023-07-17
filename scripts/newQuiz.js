@@ -1,4 +1,4 @@
-const URL = '';
+const URL = 'https://m-6-server.onrender.com';
 
 let title = "";
 let description = "";
